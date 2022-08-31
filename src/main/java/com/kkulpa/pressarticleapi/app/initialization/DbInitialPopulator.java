@@ -1,11 +1,11 @@
-package com.kkulpa.pressarticleapi.initialization;
+package com.kkulpa.pressarticleapi.app.initialization;
 
 import com.kkulpa.pressarticleapi.app.domain.Article;
 import com.kkulpa.pressarticleapi.app.domain.ArticleContent;
 import com.kkulpa.pressarticleapi.app.domain.Author;
-import com.kkulpa.pressarticleapi.repository.ArticleContentRepository;
-import com.kkulpa.pressarticleapi.repository.ArticleRepository;
-import com.kkulpa.pressarticleapi.repository.AuthorRepository;
+import com.kkulpa.pressarticleapi.app.repository.ArticleContentRepository;
+import com.kkulpa.pressarticleapi.app.repository.ArticleRepository;
+import com.kkulpa.pressarticleapi.app.repository.AuthorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;

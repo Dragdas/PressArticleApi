@@ -1,4 +1,4 @@
-package com.kkulpa.pressarticleapi.repository;
+package com.kkulpa.pressarticleapi.app.repository;
 
 import com.kkulpa.pressarticleapi.app.domain.Author;
 import org.springframework.data.repository.CrudRepository;
