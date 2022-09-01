@@ -44,8 +44,7 @@ public class ArticleController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Article> addArticle(@RequestBody ArticleDTO articleDTO)
-                                throws  AuthorNotFoundException,
-                                        InvalidAuthorDataException,
+                                throws  InvalidAuthorDataException,
                                         IncompleteAuthorInformationException {
         Article article = articleService.addArticle(articleDTO);
         return ResponseEntity.ok(article);

@@ -53,18 +53,14 @@ public class ArticleService {
 
     @Transactional
     public Article addArticle(ArticleDTO articleDTO)
-                            throws  AuthorNotFoundException,
-                                    InvalidAuthorDataException,
-                                    IncompleteAuthorInformationException {
+                                throws IncompleteAuthorInformationException,
+                                InvalidAuthorDataException {
 
         AuthorDTO authorDTO = articleDTO.getAuthor();
 
-
-        Author author = findOrAddAuthor(authorDTO);// TODO śmierdzi
+        Author author = findOrAddAuthor(authorDTO);
 
         Article article = mapToArticle(articleDTO);
-
-
 
         article.setAuthor(author);
         article.setId(null);
@@ -74,34 +70,47 @@ public class ArticleService {
         return articleRepository.save(article);
     }
 
-/*    private Optional<Author> findAuthor(AuthorDTO authorDTO){//TODO refactoring in progress
-        if(authorDTO.getId()!=null)
-            return authorRepository.findById(authorDTO.getId());
-
-
-
-    }*/
-
-
-
     @Transactional
     public Article updateArticle(ArticleDTO articleDTO)
-                            throws  ArticleNotFoundException,
-                                    AuthorNotFoundException,
-                                    InvalidAuthorDataException,
-                                    IncompleteAuthorInformationException {
+            throws  ArticleNotFoundException,
+            AuthorNotFoundException,
+            InvalidAuthorDataException,
+            IncompleteAuthorInformationException {
 
         validateArticleId(articleDTO.getId());
 
         Article article = mapToArticle(articleDTO);
         Author author   = findOrAddAuthor(articleDTO.getAuthor());
-        ArticleContent articleContent = updatedArticleContent(articleDTO.getId() ,articleDTO.getArticleContent());
+        ArticleContent articleContent = updateArticleContent(articleDTO.getId() ,articleDTO.getArticleContent()); //todo code smell?
 
         article.setAuthor(author);
         article.setTimestamp(LocalDate.now());
         article.setArticleContent(articleContent);
 
         return articleRepository.save(article);
+    }
+
+    private Author findOrAddAuthor(AuthorDTO authorDTO) throws IncompleteAuthorInformationException, InvalidAuthorDataException {
+        Author author = findAuthor(authorDTO)
+                .or(() -> addNewAuthor(authorDTO))
+                .orElseThrow(IncompleteAuthorInformationException::new);
+        validate(author, authorDTO);
+        return author;
+    }
+
+    private Optional<Author> findAuthor(AuthorDTO authorDTO){
+        if(authorDTO.getId()!=null)
+            return authorRepository.findById(authorDTO.getId());
+
+        return authorRepository.findAuthorByFirstNameAndLastName(authorDTO.getFirstName(), authorDTO.getLastName());
+    }
+
+    private Optional<Author> addNewAuthor(AuthorDTO authorDTO) {
+        if (authorDTO.getLastName() == null || authorDTO.getFirstName() == null)
+            return Optional.empty();
+
+        Author author = authorRepository.save(new Author(null, authorDTO.getFirstName(), authorDTO.getLastName()));
+        return Optional.of(author);
     }
 
     private void validateArticleId(Long articleId) throws ArticleNotFoundException {
@@ -112,7 +121,7 @@ public class ArticleService {
             throw new ArticleNotFoundException();
     }
 
-    private ArticleContent updatedArticleContent(Long articleId, ArticleContentDTO articleContentDTO) throws ArticleNotFoundException {
+    private ArticleContent updateArticleContent(Long articleId, ArticleContentDTO articleContentDTO) throws ArticleNotFoundException {
         if ( articleContentDTO.getId() == null)
             return mapToArticleContent(articleContentDTO);
 
@@ -125,29 +134,9 @@ public class ArticleService {
         return articleContent;
     }
 
-    private Author findOrAddAuthor(AuthorDTO authorDTO) throws AuthorNotFoundException, InvalidAuthorDataException, IncompleteAuthorInformationException {
-
-        if(authorDTO.getId() == null){
-            Author author = authorRepository.findAuthorByFirstNameAndLastName(authorDTO.getFirstName(), authorDTO.getLastName());// TODO zmienic repo albo refaktoring
-
-            if(author != null)
-                return author;
-
-            if(authorDTO.getFirstName() == null || authorDTO.getLastName() == null)
-                throw new IncompleteAuthorInformationException();
-
-            return authorRepository.save(new Author(null, authorDTO.getFirstName(), authorDTO.getLastName()));
-        }
-
-        Author author = authorRepository.findById(authorDTO.getId()).orElseThrow(AuthorNotFoundException::new);
-        validate(author, authorDTO);
-
-        return author;
-    }
-
     private void validate(Author author, AuthorDTO authorDTO) throws InvalidAuthorDataException {
 
-        if(!author.getFirstName().equals(authorDTO.getFirstName()) && authorDTO.getFirstName()!=null)
+        if(!author.getFirstName().equals(authorDTO.getFirstName()) && authorDTO.getFirstName() != null)
             throw new InvalidAuthorDataException();
 
         if(!author.getLastName().equals(authorDTO.getLastName()) && authorDTO.getLastName() != null)

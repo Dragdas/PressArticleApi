@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface AuthorRepository extends CrudRepository<Author, Long> {
 
-    Author findAuthorByFirstNameAndLastName(String firstName, String lastName); //ToDo zmienic na optional
+    Optional<Author> findAuthorByFirstNameAndLastName(String firstName, String lastName);
 
 
 }
