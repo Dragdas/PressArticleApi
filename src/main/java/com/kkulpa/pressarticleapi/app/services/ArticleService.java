@@ -122,11 +122,10 @@ public class ArticleService {
     }
 
     private ArticleContent updateArticleContent(Long articleId, ArticleContentDTO articleContentDTO) throws ArticleNotFoundException {
-        if ( articleContentDTO.getId() == null)
-            return mapToArticleContent(articleContentDTO);
 
-        Article article = articleRepository.findById(articleId).orElseThrow(ArticleNotFoundException::new);
-        ArticleContent articleContent = article.getArticleContent();
+        ArticleContent articleContent = articleRepository.findById(articleId)
+                                                .orElseThrow(ArticleNotFoundException::new)
+                                                .getArticleContent();
 
         articleContent.setTitle(articleContentDTO.getTitle());
         articleContent.setContent(articleContentDTO.getContent());
