@@ -19,10 +19,10 @@ public class Author {
     @Column(name = "ID", nullable = false)
     private Long id;
 
-    @Column(name = "FIRST_NAME")
+    @Column(name = "FIRST_NAME", nullable = false)
     private String firstName;
 
-    @Column(name = "LAST_NAME")
+    @Column(name = "LAST_NAME", nullable = false)
     private String lastName;
 
 

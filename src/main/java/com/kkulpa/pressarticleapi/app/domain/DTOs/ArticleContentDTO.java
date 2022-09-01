@@ -5,23 +5,13 @@ import lombok.Getter;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
-import java.time.LocalDate;
-
 @Getter
 @AllArgsConstructor
-public class ArticleDTO {
-
+public class ArticleContentDTO {
     @Nullable
     private Long id;
     @NonNull
-    private ArticleContentDTO articleContent;
+    private String title;
     @NonNull
-    private LocalDate publicationDate;
-    @NonNull
-    private String publisher;
-    @NonNull
-    private AuthorDTO author;
-    private LocalDate timestamp;
-
-
+    private String content;
 }
