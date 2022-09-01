@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import static com.kkulpa.pressarticleapi.app.domain.mappers.ArticleMapper.mapToArticle;
 import static com.kkulpa.pressarticleapi.app.domain.mappers.ArticleMapper.mapToArticleContent;
@@ -51,12 +52,19 @@ public class ArticleService {
     }
 
     @Transactional
-    public Article addArticle(ArticleDTO articleDTO) throws AuthorNotFoundException, InvalidAuthorDataException, IncompleteAuthorInformationException {
+    public Article addArticle(ArticleDTO articleDTO)
+                            throws  AuthorNotFoundException,
+                                    InvalidAuthorDataException,
+                                    IncompleteAuthorInformationException {
 
         AuthorDTO authorDTO = articleDTO.getAuthor();
-        Author author = findOrAddAuthor(authorDTO);
+
+
+        Author author = findOrAddAuthor(authorDTO);// TODO śmierdzi
 
         Article article = mapToArticle(articleDTO);
+
+
 
         article.setAuthor(author);
         article.setId(null);
@@ -65,6 +73,16 @@ public class ArticleService {
 
         return articleRepository.save(article);
     }
+
+/*    private Optional<Author> findAuthor(AuthorDTO authorDTO){//TODO refactoring in progress
+        if(authorDTO.getId()!=null)
+            return authorRepository.findById(authorDTO.getId());
+
+
+
+    }*/
+
+
 
     @Transactional
     public Article updateArticle(ArticleDTO articleDTO)
@@ -110,7 +128,7 @@ public class ArticleService {
     private Author findOrAddAuthor(AuthorDTO authorDTO) throws AuthorNotFoundException, InvalidAuthorDataException, IncompleteAuthorInformationException {
 
         if(authorDTO.getId() == null){
-            Author author = authorRepository.findAuthorByFirstNameAndLastName(authorDTO.getFirstName(), authorDTO.getLastName());
+            Author author = authorRepository.findAuthorByFirstNameAndLastName(authorDTO.getFirstName(), authorDTO.getLastName());// TODO zmienic repo albo refaktoring
 
             if(author != null)
                 return author;

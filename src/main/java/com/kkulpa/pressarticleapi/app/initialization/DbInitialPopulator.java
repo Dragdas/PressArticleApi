@@ -15,10 +15,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 
+
+//TODO usunąć
 @Component
 @RequiredArgsConstructor
 public class DbInitialPopulator {
-
+/*
     private final ArticleRepository articleRepository;
     private final ArticleContentRepository articleContentRepository;
     private final AuthorRepository authorRepository;
@@ -62,6 +64,6 @@ public class DbInitialPopulator {
 
         articleRepository.saveAll(articles);
 
-    }
+    }*/
 
 }
