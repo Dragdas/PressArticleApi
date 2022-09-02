@@ -4,7 +4,6 @@ package com.kkulpa.pressarticleapi.app.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 
 @Entity
@@ -24,6 +23,5 @@ public class Author {
 
     @Column(name = "LAST_NAME", nullable = false)
     private String lastName;
-
 
 }

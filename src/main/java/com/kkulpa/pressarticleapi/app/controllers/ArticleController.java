@@ -3,7 +3,6 @@ package com.kkulpa.pressarticleapi.app.controllers;
 import com.kkulpa.pressarticleapi.app.domain.Article;
 import com.kkulpa.pressarticleapi.app.domain.DTOs.ArticleDTO;
 import com.kkulpa.pressarticleapi.app.errorHandling.exceptions.ArticleNotFoundException;
-import com.kkulpa.pressarticleapi.app.errorHandling.exceptions.AuthorNotFoundException;
 import com.kkulpa.pressarticleapi.app.errorHandling.exceptions.IncompleteAuthorInformationException;
 import com.kkulpa.pressarticleapi.app.errorHandling.exceptions.InvalidAuthorDataException;
 import com.kkulpa.pressarticleapi.app.services.ArticleService;
@@ -53,7 +52,6 @@ public class ArticleController {
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Article> updateArticle(@RequestBody ArticleDTO articleDTO)
                                 throws ArticleNotFoundException,
-                                        AuthorNotFoundException,
                                         InvalidAuthorDataException,
                                         IncompleteAuthorInformationException {
 

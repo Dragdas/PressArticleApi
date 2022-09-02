@@ -53,7 +53,7 @@ public class ArticleService {
 
     @Transactional
     public Article addArticle(ArticleDTO articleDTO)
-                                throws IncompleteAuthorInformationException,
+                        throws  IncompleteAuthorInformationException,
                                 InvalidAuthorDataException {
 
         AuthorDTO authorDTO = articleDTO.getAuthor();
@@ -72,16 +72,16 @@ public class ArticleService {
 
     @Transactional
     public Article updateArticle(ArticleDTO articleDTO)
-            throws  ArticleNotFoundException,
-            AuthorNotFoundException,
-            InvalidAuthorDataException,
-            IncompleteAuthorInformationException {
+                        throws  ArticleNotFoundException,
+                                InvalidAuthorDataException,
+                                IncompleteAuthorInformationException {
 
         validateArticleId(articleDTO.getId());
 
         Article article = mapToArticle(articleDTO);
         Author author   = findOrAddAuthor(articleDTO.getAuthor());
-        ArticleContent articleContent = updateArticleContent(articleDTO.getId() ,articleDTO.getArticleContent()); //todo code smell?
+        ArticleContent articleContent = updateArticleContent(articleDTO.getId(),
+                                                articleDTO.getArticleContent());
 
         article.setAuthor(author);
         article.setTimestamp(LocalDate.now());
@@ -90,7 +90,9 @@ public class ArticleService {
         return articleRepository.save(article);
     }
 
-    private Author findOrAddAuthor(AuthorDTO authorDTO) throws IncompleteAuthorInformationException, InvalidAuthorDataException {
+    private Author findOrAddAuthor(AuthorDTO authorDTO)
+                        throws  IncompleteAuthorInformationException,
+                                InvalidAuthorDataException {
         Author author = findAuthor(authorDTO)
                 .or(() -> addNewAuthor(authorDTO))
                 .orElseThrow(IncompleteAuthorInformationException::new);

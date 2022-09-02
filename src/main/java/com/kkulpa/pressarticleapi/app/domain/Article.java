@@ -36,5 +36,4 @@ public class Article {
 
     @Column(name = "TIMESTAMP", nullable = false)
     private LocalDate timestamp;
-
 }
