@@ -23,5 +23,4 @@ public class ArticleContent {
 
     @Column(name = "CONTENT", nullable = false)
     private String content;
-
 }

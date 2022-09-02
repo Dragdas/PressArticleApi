@@ -26,7 +26,8 @@ public class ArticleController {
     }
 
     @GetMapping(value = "{articleId}")
-    public ResponseEntity<Article> getArticleById(@PathVariable Long articleId) throws ArticleNotFoundException {
+    public ResponseEntity<Article> getArticleById(@PathVariable Long articleId)
+                                                        throws ArticleNotFoundException {
         return ResponseEntity.ok(articleService.getArticleById(articleId));
     }
 
@@ -36,7 +37,8 @@ public class ArticleController {
     }
 
     @DeleteMapping(value = "{articleId}")
-    public ResponseEntity<Void> deleteArticleById(@PathVariable Long articleId) throws ArticleNotFoundException {
+    public ResponseEntity<Void> deleteArticleById(@PathVariable Long articleId)
+                                                        throws ArticleNotFoundException {
         articleService.deleteArticle(articleId);
         return ResponseEntity.ok().build();
     }
@@ -58,5 +60,4 @@ public class ArticleController {
         Article article = articleService.updateArticle(articleDTO);
         return ResponseEntity.ok(article);
     }
-
 }

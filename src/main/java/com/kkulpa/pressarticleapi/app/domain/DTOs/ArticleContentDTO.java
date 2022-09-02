@@ -8,6 +8,7 @@ import org.springframework.lang.Nullable;
 @Getter
 @AllArgsConstructor
 public class ArticleContentDTO {
+
     @Nullable
     private Long id;
     @NonNull

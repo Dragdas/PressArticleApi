@@ -1,6 +1,5 @@
 package com.kkulpa.pressarticleapi.app.domain;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

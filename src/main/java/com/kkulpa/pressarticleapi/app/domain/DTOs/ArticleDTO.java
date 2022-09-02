@@ -21,7 +21,6 @@ public class ArticleDTO {
     private String publisher;
     @NonNull
     private AuthorDTO author;
+    @Nullable
     private LocalDate timestamp;
-
-
 }

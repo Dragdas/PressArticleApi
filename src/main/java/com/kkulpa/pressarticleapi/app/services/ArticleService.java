@@ -1,6 +1,5 @@
 package com.kkulpa.pressarticleapi.app.services;
 
-
 import com.kkulpa.pressarticleapi.app.domain.Article;
 import com.kkulpa.pressarticleapi.app.domain.ArticleContent;
 import com.kkulpa.pressarticleapi.app.domain.Author;
@@ -8,7 +7,6 @@ import com.kkulpa.pressarticleapi.app.domain.DTOs.ArticleContentDTO;
 import com.kkulpa.pressarticleapi.app.domain.DTOs.ArticleDTO;
 import com.kkulpa.pressarticleapi.app.domain.DTOs.AuthorDTO;
 import com.kkulpa.pressarticleapi.app.errorHandling.exceptions.ArticleNotFoundException;
-import com.kkulpa.pressarticleapi.app.errorHandling.exceptions.AuthorNotFoundException;
 import com.kkulpa.pressarticleapi.app.errorHandling.exceptions.IncompleteAuthorInformationException;
 import com.kkulpa.pressarticleapi.app.errorHandling.exceptions.InvalidAuthorDataException;
 import com.kkulpa.pressarticleapi.app.repository.ArticleRepository;
@@ -22,7 +20,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.kkulpa.pressarticleapi.app.domain.mappers.ArticleMapper.mapToArticle;
-import static com.kkulpa.pressarticleapi.app.domain.mappers.ArticleMapper.mapToArticleContent;
 
 @Service
 @RequiredArgsConstructor
@@ -81,7 +78,7 @@ public class ArticleService {
         Article article = mapToArticle(articleDTO);
         Author author   = findOrAddAuthor(articleDTO.getAuthor());
         ArticleContent articleContent = updateArticleContent(articleDTO.getId(),
-                                                articleDTO.getArticleContent());
+                                                            articleDTO.getArticleContent());
 
         article.setAuthor(author);
         article.setTimestamp(LocalDate.now());
@@ -93,29 +90,36 @@ public class ArticleService {
     private Author findOrAddAuthor(AuthorDTO authorDTO)
                         throws  IncompleteAuthorInformationException,
                                 InvalidAuthorDataException {
+
         Author author = findAuthor(authorDTO)
                 .or(() -> addNewAuthor(authorDTO))
                 .orElseThrow(IncompleteAuthorInformationException::new);
         validate(author, authorDTO);
+
         return author;
     }
 
     private Optional<Author> findAuthor(AuthorDTO authorDTO){
-        if(authorDTO.getId()!=null)
-            return authorRepository.findById(authorDTO.getId());
+        if(authorDTO.getId()==null)
+            return authorRepository.findAuthorByFirstNameAndLastName(authorDTO.getFirstName(),
+                    authorDTO.getLastName());
 
-        return authorRepository.findAuthorByFirstNameAndLastName(authorDTO.getFirstName(), authorDTO.getLastName());
+        return authorRepository.findById(authorDTO.getId());
     }
 
     private Optional<Author> addNewAuthor(AuthorDTO authorDTO) {
+
         if (authorDTO.getLastName() == null || authorDTO.getFirstName() == null)
             return Optional.empty();
 
-        Author author = authorRepository.save(new Author(null, authorDTO.getFirstName(), authorDTO.getLastName()));
+        Author author = authorRepository.save(new Author(null,
+                                                            authorDTO.getFirstName(),
+                                                            authorDTO.getLastName()));
         return Optional.of(author);
     }
 
     private void validateArticleId(Long articleId) throws ArticleNotFoundException {
+
         if(articleId == null)
             throw new ArticleNotFoundException();
 
@@ -123,7 +127,8 @@ public class ArticleService {
             throw new ArticleNotFoundException();
     }
 
-    private ArticleContent updateArticleContent(Long articleId, ArticleContentDTO articleContentDTO) throws ArticleNotFoundException {
+    private ArticleContent updateArticleContent(Long articleId, ArticleContentDTO articleContentDTO)
+                                                                    throws ArticleNotFoundException {
 
         ArticleContent articleContent = articleRepository.findById(articleId)
                                                 .orElseThrow(ArticleNotFoundException::new)

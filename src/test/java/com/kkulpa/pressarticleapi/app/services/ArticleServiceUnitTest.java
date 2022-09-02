@@ -26,14 +26,27 @@ class ArticleServiceUnitTest {
 
     private static final ArticleRepository articleRepository = Mockito.mock(ArticleRepository.class);
     private static final AuthorRepository authorRepository = Mockito.mock(AuthorRepository.class);
-    private static final  ArticleService articleService = new ArticleService(articleRepository, authorRepository);
+    private static final  ArticleService articleService = new ArticleService(articleRepository,
+                                                                                authorRepository);
 
     private static  final Author author1 = new Author(1L, "Anna", "B");
     private static  final Author author2 = new Author(2L, "Zuza", "C");
-    private static  final ArticleContent ac1 = new ArticleContent(1L, "Good news", "just kidding");
-    private static  final ArticleContent ac2 = new ArticleContent(2L, "Bad news", "not this time");
-    private static  final Article a1 = new Article(1L, ac1, LocalDate.now().minusDays(2),"F", author1, LocalDate.now());
-    private static final  Article a2 = new Article(2L, ac2, LocalDate.now().minusDays(5),"T", author2, LocalDate.now());
+    private static  final ArticleContent ac1 = new ArticleContent(1L, "Good news",
+                                                                    "just kidding");
+    private static  final ArticleContent ac2 = new ArticleContent(2L, "Bad news",
+                                                                    "not this time");
+    private static  final Article a1 = new Article(1L,
+                                                    ac1,
+                                                    LocalDate.now().minusDays(2),
+                                            "F",
+                                                    author1,
+                                                    LocalDate.now());
+    private static final  Article a2 = new Article(2L,
+                                                    ac2,
+                                                    LocalDate.now().minusDays(5),
+                                            "T",
+                                                    author2,
+                                                    LocalDate.now());
 
 
     @Test
@@ -98,7 +111,8 @@ class ArticleServiceUnitTest {
     }
 
     @Test
-    void shouldNotThrowWhileAddArticle() throws InvalidAuthorDataException, IncompleteAuthorInformationException {
+    void shouldNotThrowWhileAddArticle() throws InvalidAuthorDataException,
+                                                IncompleteAuthorInformationException {
           //given
           Author author = new Author(10L, "Ida", "Szczesniak");
 
@@ -108,7 +122,9 @@ class ArticleServiceUnitTest {
           when(authorRepository.save(author)).thenReturn(author);
           when((authorRepository.existsById(10L))).thenReturn(true);
 
-          ArticleContentDTO articleContentDTO = new ArticleContentDTO(5L, "Test title", "Test content");
+          ArticleContentDTO articleContentDTO = new ArticleContentDTO(5L,
+                                                                 "Test title",
+                                                               "Test content");
           AuthorDTO authorDTO = new AuthorDTO(10L, "Ida", "Szczesniak");
           ArticleDTO articleDTO = new ArticleDTO(16L,
                                       articleContentDTO,
@@ -125,7 +141,8 @@ class ArticleServiceUnitTest {
     }
 
     @Test
-    void shouldNotThrowWhileAddArticleFindAuthorById() throws InvalidAuthorDataException, IncompleteAuthorInformationException {
+    void shouldNotThrowWhileAddArticleFindAuthorById() throws   InvalidAuthorDataException,
+                                                                IncompleteAuthorInformationException {
         //given
         Author author = new Author(10L, "Ida", "Szczesniak");
 
@@ -135,7 +152,9 @@ class ArticleServiceUnitTest {
         when(authorRepository.save(author)).thenReturn(author);
         when((authorRepository.existsById(10L))).thenReturn(true);
 
-        ArticleContentDTO articleContentDTO = new ArticleContentDTO(5L, "Test title", "Test content");
+        ArticleContentDTO articleContentDTO = new ArticleContentDTO(5L,
+                                                                   "Test title",
+                                                                "Test content");
         AuthorDTO authorDTO = new AuthorDTO(10L, null, null);
         ArticleDTO articleDTO = new ArticleDTO(16L,
                                         articleContentDTO,
@@ -152,7 +171,8 @@ class ArticleServiceUnitTest {
     }
 
     @Test
-    void shouldNotThrowWhileAddArticleAndAddAuthor() throws InvalidAuthorDataException, IncompleteAuthorInformationException {
+    void shouldNotThrowWhileAddArticleAndAddAuthor() throws InvalidAuthorDataException,
+                                                            IncompleteAuthorInformationException {
         //given
         Author author = new Author(10L, "Ida", "Szczesniak");
 
@@ -162,14 +182,16 @@ class ArticleServiceUnitTest {
         when(authorRepository.save(author)).thenReturn(author);
         when((authorRepository.existsById(10L))).thenReturn(true);
 
-        ArticleContentDTO articleContentDTO = new ArticleContentDTO(5L, "Test title", "Test content");
+        ArticleContentDTO articleContentDTO = new ArticleContentDTO(5L,
+                                                                   "Test title",
+                                                                "Test content");
         AuthorDTO authorDTO = new AuthorDTO(null, "Ida", "Szczesniak");
         ArticleDTO articleDTO = new ArticleDTO(16L,
-                                        articleContentDTO,
-                                        LocalDate.now().minusDays(3),
-                                "Forbs",
-                                        authorDTO,
-                                        LocalDate.now());
+                                                articleContentDTO,
+                                                LocalDate.now().minusDays(3),
+                                        "Forbs",
+                                                authorDTO,
+                                                LocalDate.now());
 
         //when
         articleService.addArticle(articleDTO);
@@ -189,14 +211,16 @@ class ArticleServiceUnitTest {
         when(authorRepository.save(author)).thenReturn(author);
         when((authorRepository.existsById(10L))).thenReturn(true);
 
-        ArticleContentDTO articleContentDTO = new ArticleContentDTO(5L, "Test title", "Test content");
+        ArticleContentDTO articleContentDTO = new ArticleContentDTO(5L,
+                                                                    "Test title",
+                                                                 "Test content");
         AuthorDTO authorDTO = new AuthorDTO(null, null, "Szczesniak");
         ArticleDTO articleDTO = new ArticleDTO(16L,
-                                            articleContentDTO,
-                                            LocalDate.now().minusDays(3),
-                                    "Forbs",
-                                            authorDTO,
-                                            LocalDate.now());
+                                                    articleContentDTO,
+                                                    LocalDate.now().minusDays(3),
+                                            "Forbs",
+                                                    authorDTO,
+                                                    LocalDate.now());
 
         //when
         assertThrows(IncompleteAuthorInformationException.class,
@@ -215,7 +239,9 @@ class ArticleServiceUnitTest {
         when(authorRepository.save(author)).thenReturn(author);
         when((authorRepository.existsById(10L))).thenReturn(true);
 
-        ArticleContentDTO articleContentDTO = new ArticleContentDTO(5L, "Test title", "Test content");
+        ArticleContentDTO articleContentDTO = new ArticleContentDTO(5L,
+                                                                   "Test title",
+                                                                "Test content");
         AuthorDTO authorDTO = new AuthorDTO(10L, "Tomasz", "Szczesniak");
         ArticleDTO articleDTO = new ArticleDTO(5L,
                                                 articleContentDTO,
@@ -231,10 +257,14 @@ class ArticleServiceUnitTest {
     }
 
     @Test
-    void shouldUpdateArticle() throws InvalidAuthorDataException, ArticleNotFoundException, IncompleteAuthorInformationException {
+    void shouldUpdateArticle() throws InvalidAuthorDataException,
+                                        ArticleNotFoundException,
+                                        IncompleteAuthorInformationException {
         //given
         Author author = new Author(10L, "Ida", "Szczesniak");
-        ArticleContent articleContent = new ArticleContent(5L,"Test title", "Test content");
+        ArticleContent articleContent = new ArticleContent(5L,
+                                                        "Test title",
+                                                      "Test content");
         Article article = new Article(5L,
                                         articleContent,
                                         LocalDate.now().minusDays(3),
@@ -242,7 +272,9 @@ class ArticleServiceUnitTest {
                                         author,
                                         LocalDate.now());
 
-        ArticleContentDTO articleContentDTO = new ArticleContentDTO(5L, "Test change", "Test change");
+        ArticleContentDTO articleContentDTO = new ArticleContentDTO(5L,
+                                                                   "Test change",
+                                                                "Test change");
         AuthorDTO authorDTO = new AuthorDTO(10L, "Ida", "Szczesniak");
         ArticleDTO articleDTO = new ArticleDTO(5L,
                                         articleContentDTO,
@@ -272,7 +304,9 @@ class ArticleServiceUnitTest {
     void shouldThrowWhileUpdateArticle() {
         //given
         Author author = new Author(10L, "Ida", "Szczesniak");
-        ArticleContent articleContent = new ArticleContent(5L,"Test title", "Test content");
+        ArticleContent articleContent = new ArticleContent(5L,
+                                                       "Test title",
+                                                    "Test content");
         Article article = new Article(5L,
                 articleContent,
                 LocalDate.now().minusDays(3),
@@ -280,7 +314,9 @@ class ArticleServiceUnitTest {
                 author,
                 LocalDate.now());
 
-        ArticleContentDTO articleContentDTO = new ArticleContentDTO(5L, "Test change", "Test change");
+        ArticleContentDTO articleContentDTO = new ArticleContentDTO(5L,
+                                                                   "Test change",
+                                                                "Test change");
         AuthorDTO authorDTO = new AuthorDTO(10L, "Ida", "Changed");
         ArticleDTO articleDTO = new ArticleDTO(5L,
                 articleContentDTO,
