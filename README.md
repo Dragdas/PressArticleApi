@@ -2,8 +2,8 @@
 
 ### Dlaczego powstał ten projekt? 
 
-Projekt powstał jako zadanie rekrutacyjne w ramach rekrutacji na stanowisko Junior Java Developera. 
-Twórcy zadania pozostawili kandydatom sporą dowolność w zakresie wyboru narzędzi, użytych stworzenia aplikacji. 
+Projekt powstał jako zadanie rekrutacyjne,  w ramach rekrutacji na stanowisko Junior Java Developera. 
+Twórcy zadania pozostawili kandydatom sporą dowolność,  w zakresie wyboru narzędzi, użytych do stworzenia aplikacji. 
 
 ### Główne zadanie - Stworzernie API dla artykułów prasowych
 
@@ -63,7 +63,7 @@ Aplikacja powinna zawierać następujące endpointy:
 </p>
 </details>
 
-<details><summary> 2. Ściąganie projekt </summary>
+<details><summary> 2.  Ściąganie projektu </summary>
 <p>
 
 #### Nie masz gita: 
@@ -71,7 +71,7 @@ Aplikacja powinna zawierać następujące endpointy:
 * kliknij zielony przycisk "code" a następnie "download zip"
 
 #### Masz gita:
-* przejdź do folderu, do któego chcesz ściągnąć projekt 
+* przejdź do folderu, do którego chcesz ściągnąć projekt 
 * uruchom cmd (możesz wpisać cmd w pasku adresu)
 * użyj komendy:
 ```
@@ -83,13 +83,13 @@ git clone https://github.com/Dragdas/PressArticleApi.git
 <details><summary> 3. Budowanie projektu </summary>
 <p>
 
-#### Jeżeli mvn jest zdefiniowane w Twoich zmeinnych środowiskowych
-* przejdź do ściągniętego repozytorium (z cmd lub ponownie wpisz cmd w adresie folderu)
-* użyj komendy mvn clean install
+#### Jeżeli mvn jest zdefiniowany w Twoich zmiennych środowiskowych:
+* przejdź do ściągniętego repozytorium (przez cmd lub ponownie wpisz cmd w adresie folderu)
+* użyj komendy 
 ```
 mvn clean install
 ```
-#### Jeżeli mvn nie jest zdefiniowane w Twoich zmeinnych środowiskowych
+#### Jeżeli mvn nie jest zdefiniowane w Twoich zmiennych środowiskowych:
 
 * możesz podać dokladną ścieżkę do pliku mvn znajdującego się w archiwum z pkt 1. 
 Przykładowa komenda:
@@ -109,7 +109,7 @@ Przykładowa komenda:
 ```
 
 #### Jeżeli Java jest zdefiniowana w Twoich zmiennych środowiskowych
-* przejdź do folder target w ściagniętym repozytorium 
+* przejdź do folderu target w ściągniętym repozytorium 
 * użyj komendy:
 ```
 java -jar PressArticleApi-0.0.1-SNAPSHOT.jar
@@ -147,7 +147,7 @@ Api zostało zmapowane pod ścieżką:
   <details><summary> getArticleById(@PathVariable Long articleId) </summary><blockquote>
 
 * zwraca artykuł o podanym numerze id albo rzuca wyjątek ArticleNotFoundException
-* id przekazywane jest w ścieżce jako @PathVariable
+* ID przekazywane jest w ścieżce jako @PathVariable
 
   </blockquote></details>
 
@@ -158,7 +158,7 @@ znajduje się pod endpointem
 ```
 /api/articles/search
 ```
-* Zwraca listę artykułów, w któych tytule lub treści znalazła się zadana fraza
+* Zwraca listę artykułów, w których tytule lub treści znalazła się zadana fraza
 * Fraza przekazywana jest w ścieżce jako  @RequestParam keyWord
 * Nie jest case sensitive
 * Operacja jest wykonywana jednym zapytanie bazodanowym
@@ -194,15 +194,13 @@ znajduje się pod endpointem
 * Zwraca artykuł, który został zapisany w bazie 
 ..
 * Przypisuje aktualny timestamp bez względu na dane klienta
-* Jeżeli autor o danym ID istnieje wykorzystuje istnejącego autora 
+* Jeżeli autor o danym ID istnieje wykorzystuje istniejącego autora 
 * Jeżeli autor o danym imieniu i nazwisku istnieje wykorzystuje istniejącego autora
-* Jeżeli został podany ID, imie i nazwisko autora i zgadzają się one z tymi w bazie post jest dodany 
-* Jeżeli został podany ID, imie i nazwisko autora i nie ma go w bazie nowy autor jest tworzony i post dodany
+* Jeżeli został podany ID, imię i nazwisko autora i zgadzają się one z tymi w bazie artykuł jest dodany 
+* Jeżeli został podany ID, imię i nazwisko autora i nie ma go w bazie nowy autor jest tworzony i artykuł zostaje dodany
 * Jeżeli zostały podane tylko imię i nazwisko a takiego autora nie ma w bazie nowy autor jest dodany
-* Jeżeli został podany ID, imię i Nazwisko, w bazie jest autor o podanym ID ale pozostałe dane nie są zgodne 
-rzuca InvalidAuthorDataException
-* Jeżeli konieczne jest dodanie nowego autora ale w zapytaniu brakuje jego imienia albo nazwiska 
-rzuca IncompleteAuthorInformationException
+* Jeżeli został podany ID, imię i nazwisko, w bazie jest autor o podanym ID ale pozostałe dane w bazie, nie są zgodne z tymi z requesta, rzuca InvalidAuthorDataException
+* Jeżeli konieczne jest dodanie nowego autora ale w zapytaniu brakuje jego imienia albo nazwiska rzuca IncompleteAuthorInformationException
 
 </p>
 </details>
@@ -211,16 +209,15 @@ rzuca IncompleteAuthorInformationException
 <p>
 
 * Zmienia istniejący artykuł 
-* Przyjmuje plilk JSON jako @RequestBody
+* Przyjmuje plik JSON jako @RequestBody
 * Odpowiedni serwis jest oznaczony jako @Transactional ze względu na większą ilość zapytań do bazy
 * Zwraca artykuł z naniesionymi zmianami 
   ..
 * Przypisuje aktualny timestamp bez względu na dane klienta 
-* Nie pozwala na zmianę treści artykułu jeżeli w zapytaniu ID treści wskazuje na encję która nie jest 
+* Nie pozwala na zmianę treści artykułu jeżeli w zapytaniu, ID treści wskazuje na encję która nie jest 
 związana z artykułem  
 * rzuca ArticleNotFoundException jeżeli danego artykułu nie ma w bazie
-* Jeżeli trzeba zmienić autora artykułu tworzenie albo wykorzystywanie istniejącego autora przebiega 
-analogiczne do logiki z Post Request
+* Jeżeli trzeba zmienić autora artykułu, tworzenie albo wykorzystywanie istniejącego autora przebiega analogiczne do logiki z Post Request
 
 </p>
 </details>
